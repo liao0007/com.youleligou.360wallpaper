@@ -54,7 +54,7 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
   def index(pager: ModelPager): Action[AnyContent] = Action {
 
     val ModelPager(page, size) = pager
-    val photos = Photo.page(page * size, size).toList
+    val photos = Photo.page(page * size, size).orderBy("createdAt", "DESC").toList
 
     Ok(Json.toJson(photos))
 
