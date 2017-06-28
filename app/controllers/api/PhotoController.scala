@@ -7,7 +7,7 @@ import models.ModelPager
 import play.api.Logger
 import play.api.libs.json.{JsArray, Json}
 import play.api.libs.ws.{WSClient, WSRequest}
-import play.api.mvc.InjectedController
+import play.api.mvc.{Action, AnyContent, InjectedController}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -17,9 +17,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class PhotoController @Inject()(ws: WSClient) extends InjectedController {
 
 
-  def update = Action.async {
+  def update: Action[AnyContent] = Action.async {
 
-    val request: WSRequest = ws.url("https://api.unsplash.com/photos/")
+    val request: WSRequest = ws.url("http://api.unsplash.com/photos/")
 
     val photoCount = Photo.all.count
     val page = photoCount / 30 + 1
