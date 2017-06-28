@@ -51,9 +51,10 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
   }
 
   // Action and parse now use the injected components
-  def index(pager: ModelPager) = Action {
+  def index(pager: ModelPager): Action[AnyContent] = Action {
 
-    val photos = Photo.all.toList
+    val ModelPager(page, size) = pager
+    val photos = Photo.page(page * size, size).toList
 
     Ok(Json.toJson(photos))
 
