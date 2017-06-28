@@ -37,10 +37,10 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
             item
               .validate[Photo]
               .fold({ reason =>
-                Logger.warn("parse menu failed, " + reason.toString)
+                Logger.warn("parse photo failed, " + reason.toString)
                 None
               }, { photo =>
-                photo.create
+                photo.copy(url = photo.url.replace("https://images.unsplash.com", "")).create
               })
           }
         case _ => Seq.empty[Photo]
