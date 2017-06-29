@@ -10,6 +10,7 @@ import play.api.libs.ws.{WSClient, WSRequest}
 import play.api.mvc.{Action, AnyContent, InjectedController}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Try
 
 /**
   * Created by liangliao on 27/6/17.
@@ -21,15 +22,16 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
 
     val request: WSRequest = ws.url("http://api.unsplash.com/photos/")
 
-    val photoCount = Photo.all.count
-    val page = photoCount / 30 + 1
+    val system: daos.System = daos.System.findBy("key", "page").get
 
     request.addHttpHeaders("Accept" -> "application/json")
       .addQueryStringParameters(
         "client_id" -> "395005f5b2b2da243b35408e946ff70212a51767673edefc795c95e540231a3f",
-        "page" -> page.toString,
-        "per_page" -> "30",
-        "order_by" -> "oldest").get() map { response =>
+        "page" -> system.value,
+        "per_page" -> "30").get() map { response =>
+
+
+      system.copy(value = (system.value.toInt + 1).toString).update
 
       Json.parse(response.body) match {
         case JsArray(value) =>
@@ -40,7 +42,7 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
                 Logger.warn("parse photo failed, " + reason.toString)
                 None
               }, { photo =>
-                photo.copy(url = photo.url.replace("https://images.unsplash.com", "")).create
+                Try(photo.copy(url = photo.url.replace("https://images.unsplash.com", "")).create)
               })
           }
         case _ => Seq.empty[Photo]

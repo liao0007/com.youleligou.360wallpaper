@@ -33,7 +33,8 @@ libraryDependencies ++= Seq(
   "com.github.aselab" %% "scala-activerecord-play2" % "0.4.0-SNAPSHOT",
   "mysql" % "mysql-connector-java" % "5.1.40",
 
-  "com.typesafe.play" %% "play-json-joda" % "2.6.0"
+  "com.typesafe.play" %% "play-json-joda" % "2.6.0",
+  "ch.qos.logback" % "logback-classic" % "1.2.3"
 )
 
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node

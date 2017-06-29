@@ -9,4 +9,5 @@ import com.github.aselab.activerecord.dsl._
 object Tables extends ActiveRecordTables with PlaySupport {
 
   val photo: _root_.com.github.aselab.activerecord.dsl.Table[Photo] = table[Photo]("photo")
+  val system: _root_.com.github.aselab.activerecord.dsl.Table[System] = table[System]("system")
 }
