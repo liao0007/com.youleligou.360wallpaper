@@ -1,6 +1,7 @@
 #GET           /                                                              controllers.Default.redirect(to = "/store")
 
 GET        /api/photos/update        controllers.api.PhotoController.update
+GET        /api/photos/reset         controllers.api.PhotoController.reset
 GET        /api/photos               controllers.api.PhotoController.index(p: models.ModelPager ?= models.ModelPager())
 #GET           /api/photos/new                                    controllers.api.PhotoController.newPage
 #GET           /api/photos/:id/next                               controllers.api.PhotoController.next(id: Long)

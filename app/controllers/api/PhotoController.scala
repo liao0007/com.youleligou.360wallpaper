@@ -52,6 +52,17 @@ class PhotoController @Inject()(ws: WSClient) extends InjectedController {
     }
   }
 
+
+  def reset: Action[AnyContent] = Action {
+
+    val system: daos.System = daos.System.findBy("key", "page").get
+
+    system.copy(value = "1").update
+
+    Ok
+
+  }
+
   // Action and parse now use the injected components
   def index(pager: ModelPager): Action[AnyContent] = Action {
 
